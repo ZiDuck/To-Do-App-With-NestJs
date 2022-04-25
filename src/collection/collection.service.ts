@@ -6,36 +6,32 @@ import { CreateCollectionDto, UpdateCollectionDto } from './dto';
 export class CollectionService {
     constructor(private prisma: PrismaService) {}
 
-    async store(userId: number, createCollectionDto: CreateCollectionDto): Promise<Collection> {
+    async store(userId: number, data: CreateCollectionDto): Promise<Collection> {
         try {
-            const { nameCollection } = createCollectionDto;
             const collection = await this.prisma.collection.create({
                 data: {
-                    nameCollection,
+                    ...data,
                     userId,
                 },
             });
             return collection;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
-    async update(collectionId: number, updateCollectionDto: UpdateCollectionDto): Promise<Collection> {
+    async update(collectionId: number, data: UpdateCollectionDto): Promise<Collection> {
         try {
-            const { nameCollection } = updateCollectionDto;
 
             const collection = await this.prisma.collection.update({
                 where: {
                     id: collectionId,
                 },
-                data: {
-                    nameCollection,
-                },
+                data,
             });
             return collection;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -49,7 +45,7 @@ export class CollectionService {
 
             return deletedCollection;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -62,7 +58,7 @@ export class CollectionService {
             });
             return tasks;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 }

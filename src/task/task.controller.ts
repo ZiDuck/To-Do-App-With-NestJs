@@ -10,13 +10,13 @@ export class TaskController {
     constructor(private taskService: TaskService) {}
 
     @Post()
-    create(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
-        return this.taskService.create(createTaskDto);
+    create(@Body() data: CreateTaskDto): Promise<Task> {
+        return this.taskService.create(data);
     }
 
     @Put(':id')
-    update(@Param('id') taskId: string, @Body() updateTaskDto: UpdateTaskDto): Promise<Task> {
-        return this.taskService.update(+taskId, updateTaskDto);
+    update(@Param('id') taskId: string, @Body() data: UpdateTaskDto): Promise<Task> {
+        return this.taskService.update(+taskId, data);
     }
 
     @Delete(':id')

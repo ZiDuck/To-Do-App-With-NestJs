@@ -11,13 +11,13 @@ export class CollectionController {
     constructor(private collectionService: CollectionService) {}
 
     @Post()
-    store(@GetUser() user: User, @Body() createCollectionDto: CreateCollectionDto): Promise<Collection> {
-        return this.collectionService.store(user.id, createCollectionDto);
+    store(@GetUser() user: User, @Body() data: CreateCollectionDto): Promise<Collection> {
+        return this.collectionService.store(user.id, data);
     }
 
     @Put(':id')
-    update(@Param('id') collectionId: string, @Body() updateCollectionDto: UpdateCollectionDto): Promise<Collection> {
-        return this.collectionService.update(+collectionId, updateCollectionDto);
+    update(@Param('id') collectionId: string, @Body() data: UpdateCollectionDto): Promise<Collection> {
+        return this.collectionService.update(+collectionId, data);
     }
 
     @Delete(':id')

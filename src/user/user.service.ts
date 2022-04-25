@@ -8,9 +8,9 @@ import { Collection, User } from '@prisma/client';
 export class UserService {
     constructor(private prisma: PrismaService) {}
 
-    async update(userId: number, updateUserDto: UpdateUserDto): Promise<User> {
+    async update(userId: number, data: UpdateUserDto): Promise<User> {
         try {
-            const { email, password, name } = updateUserDto;
+            const {email, password, name} = data;
             const hashPassword = await bcrypt.hash(password, 10);
 
             const user = await this.prisma.user.update({
@@ -20,14 +20,14 @@ export class UserService {
                 data: {
                     email,
                     passWord: hashPassword,
-                    name,
+                    name
                 },
             });
 
             delete user.passWord;
             return user;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -43,7 +43,7 @@ export class UserService {
             });
             return collections;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 }

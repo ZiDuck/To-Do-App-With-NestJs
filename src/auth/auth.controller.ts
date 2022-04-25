@@ -11,13 +11,13 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('register')
-    register(@Body() createUserDto: CreateUserDto): Promise<User> {
-        return this.authService.register(createUserDto);
+    register(@Body() data: CreateUserDto): Promise<User> {
+        return this.authService.register(data);
     }
 
     @Post('login')
-    login(@Body() authDto: AuthDto): Promise<Tokens> {
-        return this.authService.login(authDto);
+    login(@Body() dto: AuthDto): Promise<Tokens> {
+        return this.authService.login(dto);
     }
 
     @UseGuards(JwtGuard)

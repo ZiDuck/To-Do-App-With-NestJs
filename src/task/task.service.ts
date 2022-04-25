@@ -8,41 +8,28 @@ import { CreateTaskDto } from './dto/create-task.dto';
 export class TaskService {
     constructor(private prisma: PrismaService) {}
 
-    async create(createTaskDto: CreateTaskDto): Promise<Task> {
+    async create(data: CreateTaskDto): Promise<Task> {
         try {
-            const { nameTask, collectionId, deadline, description } = createTaskDto;
             const task = await this.prisma.task.create({
-                data: {
-                    nameTask,
-                    collectionId,
-                    deadline,
-                    description,
-                },
+                data,
             });
             return task;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
-    async update(taskId: number, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    async update(taskId: number, data: UpdateTaskDto): Promise<Task> {
         try {
-            const { nameTask, deadline, description, state } = updateTaskDto;
-            console.log(nameTask, deadline, description, state);
             const task = await this.prisma.task.update({
                 where: {
                     id: taskId,
                 },
-                data: {
-                    nameTask,
-                    deadline,
-                    description,
-                    state,
-                },
+                data,
             });
             return task;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 
@@ -55,7 +42,7 @@ export class TaskService {
             });
             return deletedTask;
         } catch (error) {
-            return error;
+            throw error;
         }
     }
 }

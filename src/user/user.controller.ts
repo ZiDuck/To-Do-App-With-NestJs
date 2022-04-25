@@ -20,8 +20,8 @@ export class UserController {
 
     // [PUT] users/me
     @Put('me')
-    update(@GetUser() user: User, @Body() updateUserDto: UpdateUserDto): Promise<User> {
-        return this.userService.update(user.id, updateUserDto);
+    update(@GetUser() user: User, @Body() data: UpdateUserDto): Promise<User> {
+        return this.userService.update(user.id, data);
     }
 
     // [GET] users/me/collections/

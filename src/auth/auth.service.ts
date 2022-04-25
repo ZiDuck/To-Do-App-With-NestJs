@@ -12,15 +12,15 @@ import { Tokens } from './types';
 export class AuthService {
     constructor(private prisma: PrismaService, private jwt: JwtService, private config: ConfigService) {}
 
-    async register(createUserDto: CreateUserDto): Promise<User> {
+    async register(dto: CreateUserDto): Promise<User> {
         try {
-            const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-            console.log(createUserDto.password);
+            const hashedPassword = await bcrypt.hash(dto.password, 10);
+
             const user = await this.prisma.user.create({
                 data: {
-                    email: createUserDto.email,
+                    email: dto.email,
                     passWord: hashedPassword,
-                    name: createUserDto.name,
+                    name: dto.name,
                 },
             });
 
@@ -35,11 +35,11 @@ export class AuthService {
         }
     }
 
-    async login(authDto: AuthDto): Promise<Tokens> {
+    async login(dto: AuthDto): Promise<Tokens> {
         // find user by email
         const user = await this.prisma.user.findUnique({
             where: {
-                email: authDto.email,
+                email: dto.email,
             },
         });
 
@@ -48,7 +48,7 @@ export class AuthService {
             throw new ForbiddenException('Credential incorrect');
         }
 
-        const pwMatches = await bcrypt.compare(authDto.password, user.passWord);
+        const pwMatches = await bcrypt.compare(dto.password, user.passWord);
         if (!pwMatches) {
             console.log('Password incorrect');
             throw new ForbiddenException('Credential incorrect');
